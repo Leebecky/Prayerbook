@@ -25,13 +25,12 @@ class MyApp extends StatelessWidget {
         home: PageView(
           controller: pageCtrl,
           children: [
-            Chaplet(),
+            Chaplet(pageCtrl),
             Litany(),
             PrayerToMary(),
             PandemicPrayer(),
             Closing()
           ],
-          // ),
         ));
   }
 }
