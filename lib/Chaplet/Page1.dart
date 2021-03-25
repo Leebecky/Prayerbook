@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:prayerbook/customListTile.dart';
+import 'package:prayerbook/CustomWidget/customListTile.dart';
+import 'Page2.dart';
+import 'Page3.dart';
 
 class Chaplet extends StatelessWidget {
-  final PageController pageController = PageController();
+  final PageController chapletCtrl = PageController();
   final ScrollController intercessionCtrl = ScrollController();
   final PageController pageCtrl;
   final ValueNotifier<int> intercessionIndex = ValueNotifier<int>(0);
@@ -14,6 +16,7 @@ class Chaplet extends StatelessWidget {
     List<Widget> chapletPages = [
       FirstPage(intercessionIndex, intercessionCtrl),
       SecondPage(),
+      ThirdPage()
     ];
 
     return Scaffold(
@@ -23,27 +26,30 @@ class Chaplet extends StatelessWidget {
         body: GestureDetector(
           onTap: () {
             //^  If we are still on the first page:
-            if (pageController.page == 0) {
+            if (chapletCtrl.page == 0) {
               //^ Go to next intercession if its not completed, else go to the next page
               (intercessionIndex.value <= 8)
                   ? intercessionCtrl.jumpTo(MediaQuery.of(context).size.width *
                       intercessionIndex.value)
-                  : pageController.nextPage(
-                      duration: Duration(milliseconds: 30),
+                  : chapletCtrl.nextPage(
+                      duration: Duration(milliseconds: 1),
                       curve: Curves.linear);
 
               //^ Increments the intercesionIndex when at 8 (cuz it starts at 0)
               if (intercessionIndex.value == 8) {
                 intercessionIndex.value++;
               }
+            } else if (chapletCtrl.page != (chapletPages.length - 1)) {
+              chapletCtrl.nextPage(
+                  duration: Duration(milliseconds: 1), curve: Curves.linear);
             } else {
               //^  Once done with the Chaplet, move on to the next page (Litany)
               pageCtrl.nextPage(
-                  duration: Duration(seconds: 1), curve: Curves.linear);
+                  duration: Duration(milliseconds: 1), curve: Curves.linear);
             }
           },
           child: PageView(
-            controller: pageController,
+            controller: chapletCtrl,
             children: chapletPages,
           ),
         ));
@@ -115,38 +121,27 @@ class FirstPage extends StatelessWidget {
         subtitle: "Amen"),
     customListTile(
         title:
-            "4. By the intercession of St. Michael and the celestial Choir of Thrones, may the Lord infuse into our hearts a true and sincere spirit of humility.",
+            "4. By the intercession of St. Michael and the celestial Choir of Dominations, may the Lord give us grace to govern our senses and overcome any unruly passions.",
         subtitle: "Amen"),
     customListTile(
         title:
-            "5. By the intercession of St. Michael and the celestial Choir of Thrones, may the Lord infuse into our hearts a true and sincere spirit of humility.",
+            "5. By the intercession of St. Michael and the celestial Choir of Virtues, may the Lord preserve us from evil and falling into temptation.",
         subtitle: "Amen"),
     customListTile(
         title:
-            "6. By the intercession of St. Michael and the celestial Choir of Thrones, may the Lord infuse into our hearts a true and sincere spirit of humility.",
+            "6. By the intercession of St. Michael and the celestial Choir of Powers, may the Lord protect our souls against the snares and temptations of the devil.",
         subtitle: "Amen"),
     customListTile(
         title:
-            "7. By the intercession of St. Michael and the celestial Choir of Thrones, may the Lord infuse into our hearts a true and sincere spirit of humility.",
+            "7. By the intercession of St. Michael and the celestial Choir of Pricipalities, may God fill our souls with a true spirit of obedience.",
         subtitle: "Amen"),
     customListTile(
         title:
-            "8. By the intercession of St. Michael and the celestial Choir of Thrones, may the Lord infuse into our hearts a true and sincere spirit of humility.",
+            "8. By the intercession of St. Michael and the celestial Choir of Archangels, may the Lord give us perseverance in faith and in all good works in order that we may attain the glory of heaven.",
         subtitle: "Amen"),
     customListTile(
         title:
-            "9. By the intercession of St. Michael and the celestial Choir of Thrones, may the Lord infuse into our hearts a true and sincere spirit of humility.",
+            "9. By the intercession of St. Michael and the celestial Choir of Angels, may the Lord grant us to be protected by them in this mortal life and conducted in the life to come to heaven.",
         subtitle: "Amen"),
   ];
 }
-
-class SecondPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.pink,
-    );
-  }
-}
-
-TextStyle headingStyle = TextStyle(fontSize: 32, color: Colors.yellow);
