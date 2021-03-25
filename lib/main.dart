@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:prayerbook/pandemic_prayer.dart';
-import 'package:prayerbook/prayer_to_mary.dart';
+import 'package:prayerbook/PandemicPrayer/pandemic_prayer.dart';
+import 'package:prayerbook/PrayerToMary/prayer_to_mary.dart';
 
-import 'chaplet.dart';
+import 'Chaplet/Page1.dart';
 import 'closing.dart';
-import 'litany.dart';
+import 'Litany/Page1.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
           controller: pageCtrl,
           children: [
             Chaplet(pageCtrl),
-            Litany(),
-            PrayerToMary(),
-            PandemicPrayer(),
+            Litany(pageCtrl),
+            PrayerToMary(pageCtrl),
+            PandemicPrayer(pageCtrl),
             Closing()
           ],
         ));
