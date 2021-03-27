@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 Widget customText(String text,
-    {TextAlign textAlign = TextAlign.left, double fontSize = 32}) {
+    {TextAlign textAlign = TextAlign.left, double fontSize = 35}) {
   return Text(
     text,
     style: TextStyle(fontSize: fontSize),
@@ -10,7 +10,7 @@ Widget customText(String text,
 }
 
 Widget customTextLitany(String text,
-    {TextAlign textAlign = TextAlign.left, double fontSize = 28}) {
+    {TextAlign textAlign = TextAlign.left, double fontSize = 30 }) {
   return Text(
     text,
     style: TextStyle(fontSize: fontSize),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:indexed_list_view/indexed_list_view.dart';
 import 'package:prayerbook/CustomWidget/customListTile.dart';
 import 'Page2.dart';
 import 'Page3.dart';
 
 class Chaplet extends StatelessWidget {
   final PageController chapletCtrl = PageController();
-  final ScrollController intercessionCtrl = ScrollController();
+  final IndexedScrollController intercessionCtrl =
+      IndexedScrollController(initialIndex: 0);
   final PageController pageCtrl;
   final ValueNotifier<int> intercessionIndex = ValueNotifier<int>(0);
 
@@ -28,17 +30,11 @@ class Chaplet extends StatelessWidget {
             //^  If we are still on the first page:
             if (chapletCtrl.page == 0) {
               //^ Go to next intercession if its not completed, else go to the next page
-              (intercessionIndex.value <= 8)
-                  ? intercessionCtrl.jumpTo(MediaQuery.of(context).size.width *
-                      intercessionIndex.value)
+              (intercessionIndex.value < 9)
+                  ? intercessionCtrl.jumpToIndex(intercessionIndex.value)
                   : chapletCtrl.nextPage(
                       duration: Duration(milliseconds: 1),
                       curve: Curves.linear);
-
-              //^ Increments the intercesionIndex when at 8 (cuz it starts at 0)
-              if (intercessionIndex.value == 8) {
-                intercessionIndex.value++;
-              }
             } else if (chapletCtrl.page != (chapletPages.length - 1)) {
               chapletCtrl.nextPage(
                   duration: Duration(milliseconds: 1), curve: Curves.linear);
@@ -81,21 +77,24 @@ class FirstPage extends StatelessWidget {
           ),
           Text(
             "[Say 1 Our Father and 3 Hail Marys after each of the following salutation in honour of the nine choirs of Angels]",
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 22),
           ),
           SizedBox(
             height: 150,
           ),
           //~ Intercessions
           Expanded(
-            child: ListView.builder(
+            child: IndexedListView.builder(
+                minItemCount: 0,
+                maxItemCount: 9,
+                physics: ClampingScrollPhysics(),
                 controller: intercessionCtrl,
                 scrollDirection: Axis.horizontal,
-                itemCount: intercessions.length,
                 itemBuilder: (context, int i) {
                   intercessionIndex.value = i;
 
                   return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 50),
                       width: MediaQuery.of(context).size.width,
                       child: intercessions[i]);
                 }),
@@ -107,41 +106,51 @@ class FirstPage extends StatelessWidget {
 
   final List<Widget> intercessions = [
     customListTile(
+        leading: Text("1.", style: leadingStyle),
         title:
-            "1. By the intercession of St. Michael and the celestial Choir of Seraphim, may the Lord make us worthy to burn with the fire of perfect charity.",
+            "By the intercession of St. Michael and the celestial Choir of Seraphim, may the Lord make us worthy to burn with the fire of perfect charity.",
         subtitle: "Amen"),
     customListTile(
+      leading: Text("2.", style: leadingStyle),
       title:
-          "2. By the intercession of St. Michael and the celestial Choir of Cherubim, may the Lord grant us the grace to leave the ways of sin and run in the paths of Christian perfection.",
+          "By the intercession of St. Michael and the celestial Choir of Cherubim, may the Lord grant us the grace to leave the ways of sin and run in the paths of Christian perfection.",
       subtitle: "Amen",
     ),
     customListTile(
+        leading: Text("3.", style: leadingStyle),
         title:
-            "3. By the intercession of St. Michael and the celestial Choir of Thrones, may the Lord infuse into our hearts a true and sincere spirit of humility.",
+            "By the intercession of St. Michael and the celestial Choir of Thrones, may the Lord infuse into our hearts a true and sincere spirit of humility.",
         subtitle: "Amen"),
     customListTile(
+        leading: Text("4.", style: leadingStyle),
         title:
-            "4. By the intercession of St. Michael and the celestial Choir of Dominations, may the Lord give us grace to govern our senses and overcome any unruly passions.",
+            "By the intercession of St. Michael and the celestial Choir of Dominations, may the Lord give us grace to govern our senses and overcome any unruly passions.",
         subtitle: "Amen"),
     customListTile(
+        leading: Text("5.", style: leadingStyle),
         title:
-            "5. By the intercession of St. Michael and the celestial Choir of Virtues, may the Lord preserve us from evil and falling into temptation.",
+            "By the intercession of St. Michael and the celestial Choir of Virtues, may the Lord preserve us from evil and falling into temptation.",
         subtitle: "Amen"),
     customListTile(
+        leading: Text("6.", style: leadingStyle),
         title:
-            "6. By the intercession of St. Michael and the celestial Choir of Powers, may the Lord protect our souls against the snares and temptations of the devil.",
+            "By the intercession of St. Michael and the celestial Choir of Powers, may the Lord protect our souls against the snares and temptations of the devil.",
         subtitle: "Amen"),
     customListTile(
+        leading: Text("7.", style: leadingStyle),
         title:
-            "7. By the intercession of St. Michael and the celestial Choir of Pricipalities, may God fill our souls with a true spirit of obedience.",
+            "By the intercession of St. Michael and the celestial Choir of Pricipalities, may God fill our souls with a true spirit of obedience.",
         subtitle: "Amen"),
     customListTile(
+        leading: Text("8.", style: leadingStyle),
         title:
-            "8. By the intercession of St. Michael and the celestial Choir of Archangels, may the Lord give us perseverance in faith and in all good works in order that we may attain the glory of heaven.",
+            "By the intercession of St. Michael and the celestial Choir of Archangels, may the Lord give us perseverance in faith and in all good works in order that we may attain the glory of heaven.",
         subtitle: "Amen"),
     customListTile(
+        leading: Text("9.", style: leadingStyle),
         title:
-            "9. By the intercession of St. Michael and the celestial Choir of Angels, may the Lord grant us to be protected by them in this mortal life and conducted in the life to come to heaven.",
+            "By the intercession of St. Michael and the celestial Choir of Angels, may the Lord grant us to be protected by them in this mortal life and conducted in the life to come to heaven.",
         subtitle: "Amen"),
+    Container()
   ];
 }

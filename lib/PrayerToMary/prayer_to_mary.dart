@@ -48,10 +48,10 @@ class FirstPage extends StatelessWidget {
         children: [
           customText(
               "O Mary, \nYou always shine on our path \nas a sign of salvation and of hope."),
-          SizedBox(height: 20),
+          SizedBox(height: 25),
           customText(
-              "We entrust ourselves to you, Health of the Sick,\n who at the cross took part in Jesus’ pain, keeping your faith firm."),
-          SizedBox(height: 20),
+              "We entrust ourselves to you, Health of the Sick,\nwho at the cross took part in Jesus’ pain, keeping your faith firm."),
+          SizedBox(height: 25),
           customText(
               "You, Salvation of the Roman People, \nknow what we need, \nand we are sure you will provide \nso that, as in Cana of Galilee, we may return to joy and to feasting \nafter this time of trial."),
         ],
