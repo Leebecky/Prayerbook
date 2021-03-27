@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:indexed_list_view/indexed_list_view.dart';
+import 'package:prayerbook/CustomWidget/prevBtn.dart';
 import 'package:prayerbook/CustomWidget/customListTile.dart';
+import 'package:prayerbook/drawer.dart';
 import 'Page2.dart';
 import 'Page3.dart';
 
 class Chaplet extends StatelessWidget {
-  final PageController chapletCtrl = PageController();
+  final PageController chapletCtrl;
   final IndexedScrollController intercessionCtrl =
       IndexedScrollController(initialIndex: 0);
   final PageController pageCtrl;
   final ValueNotifier<int> intercessionIndex = ValueNotifier<int>(0);
 
-  Chaplet(this.pageCtrl);
+  Chaplet(this.pageCtrl, this.chapletCtrl);
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class Chaplet extends StatelessWidget {
         appBar: AppBar(
           title: Text("St Michael's Chaplet"),
         ),
+        drawer: SideDrawer(pageCtrl),
         body: GestureDetector(
           onTap: () {
             //^  If we are still on the first page:
@@ -44,10 +47,28 @@ class Chaplet extends StatelessWidget {
                   duration: Duration(milliseconds: 1), curve: Curves.linear);
             }
           },
-          child: PageView(
-            controller: chapletCtrl,
-            children: chapletPages,
-          ),
+          child: Stack(children: [
+            PageView(
+              controller: chapletCtrl,
+              children: chapletPages,
+            ),
+            Positioned(
+                bottom: 10,
+                left: 10,
+                child: PrevButton(onPressed: () {
+                  //^  If we are still on the first page:
+                  if (chapletCtrl.page == 0) {
+                    //^ Go to next intercession if its not completed, else go to the next page
+                    if (intercessionIndex.value > 0) {
+                      intercessionCtrl.jumpToIndex(intercessionIndex.value - 2);
+                    }
+                  } else if (chapletCtrl.page != 0) {
+                    chapletCtrl.previousPage(
+                        duration: Duration(milliseconds: 1),
+                        curve: Curves.linear);
+                  }
+                }))
+          ]),
         ));
   }
 }
@@ -64,9 +85,7 @@ class FirstPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: 20),
           Text(
             "O God, come to my assistance. O Lord, make haste to help me.",
             style: headingStyle,
@@ -79,9 +98,7 @@ class FirstPage extends StatelessWidget {
             "[Say 1 Our Father and 3 Hail Marys after each of the following salutation in honour of the nine choirs of Angels]",
             style: TextStyle(fontSize: 22),
           ),
-          SizedBox(
-            height: 150,
-          ),
+          SizedBox(height: 150),
           //~ Intercessions
           Expanded(
             child: IndexedListView.builder(
@@ -139,7 +156,7 @@ class FirstPage extends StatelessWidget {
     customListTile(
         leading: Text("7.", style: leadingStyle),
         title:
-            "By the intercession of St. Michael and the celestial Choir of Pricipalities, may God fill our souls with a true spirit of obedience.",
+            "By the intercession of St. Michael and the celestial Choir of Principalities, may God fill our souls with a true spirit of obedience.",
         subtitle: "Amen"),
     customListTile(
         leading: Text("8.", style: leadingStyle),

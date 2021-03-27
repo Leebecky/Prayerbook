@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:prayerbook/CustomWidget/prevBtn.dart';
+import 'package:prayerbook/drawer.dart';
 import 'Page2.dart';
 import 'package:prayerbook/CustomWidget/customText.dart';
 
 class PandemicPrayer extends StatelessWidget {
-  final PageController pandemicPrayerCtrl = PageController();
+  final PageController pandemicPrayerCtrl;
+  final PageController prayerToMaryCtrl;
   final PageController pageCtrl;
 
-  PandemicPrayer(this.pageCtrl);
+  PandemicPrayer(this.pageCtrl, this.pandemicPrayerCtrl, this.prayerToMaryCtrl);
 
   @override
   Widget build(BuildContext context) {
@@ -14,25 +17,45 @@ class PandemicPrayer extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.green[700],
           title: Text("Prayer during a Pandemic"),
         ),
+        drawer: SideDrawer(pageCtrl),
         body: GestureDetector(
-          onTap: () {
-            //^  If we are still on the first page:
-            if (pandemicPrayerCtrl.page != (pandemicPrayerPages.length - 1)) {
-              pandemicPrayerCtrl.nextPage(
-                  duration: Duration(milliseconds: 1), curve: Curves.linear);
-            } else {
-              //^  Once done with the PandemicPrayer, move on to the next page (PandemicPrayer)
-              pageCtrl.nextPage(
-                  duration: Duration(milliseconds: 1), curve: Curves.linear);
-            }
-          },
-          child: PageView(
-            controller: pandemicPrayerCtrl,
-            children: pandemicPrayerPages,
-          ),
-        ));
+            onTap: () {
+              if (pandemicPrayerCtrl.page != (pandemicPrayerPages.length - 1)) {
+                pandemicPrayerCtrl.nextPage(
+                    duration: Duration(milliseconds: 1), curve: Curves.linear);
+              } else {
+                pageCtrl.nextPage(
+                    duration: Duration(milliseconds: 1), curve: Curves.linear);
+              }
+            },
+            child: Stack(children: [
+              PageView(
+                controller: pandemicPrayerCtrl,
+                children: pandemicPrayerPages,
+              ),
+              Positioned(
+                bottom: 10,
+                left: 10,
+                child: PrevButton(
+                  onPressed: () {
+                    if (pandemicPrayerCtrl.page != 0) {
+                      pandemicPrayerCtrl.previousPage(
+                          duration: Duration(milliseconds: 1),
+                          curve: Curves.linear);
+                    } else {
+                      pageCtrl
+                          .previousPage(
+                              duration: Duration(milliseconds: 10),
+                              curve: Curves.linear)
+                          .then((value) => prayerToMaryCtrl.jumpToPage(1));
+                    }
+                  },
+                ),
+              )
+            ])));
   }
 }
 

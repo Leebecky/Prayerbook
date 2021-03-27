@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:prayerbook/CustomWidget/prevBtn.dart';
+import 'package:prayerbook/drawer.dart';
 import 'Page2.dart';
 import 'package:prayerbook/CustomWidget/customText.dart';
 
 class PrayerToMary extends StatelessWidget {
-  final PageController prayerToMaryCtrl = PageController();
+  final PageController prayerToMaryCtrl;
   final PageController pageCtrl;
+  final PageController litanyCtrl;
 
-  PrayerToMary(this.pageCtrl);
+  PrayerToMary(this.pageCtrl, this.prayerToMaryCtrl, this.litanyCtrl);
 
   @override
   Widget build(BuildContext context) {
@@ -14,25 +17,44 @@ class PrayerToMary extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.red[900],
           title: Text("Prayer To Mary"),
         ),
+        drawer: SideDrawer(pageCtrl),
         body: GestureDetector(
-          onTap: () {
-            //^  If we are still on the first page:
-            if (prayerToMaryCtrl.page != (prayerToMaryPages.length - 1)) {
-              prayerToMaryCtrl.nextPage(
-                  duration: Duration(milliseconds: 1), curve: Curves.linear);
-            } else {
-              //^  Once done with the PrayerToMary, move on to the next page (PrayerToMary)
-              pageCtrl.nextPage(
-                  duration: Duration(milliseconds: 1), curve: Curves.linear);
-            }
-          },
-          child: PageView(
-            controller: prayerToMaryCtrl,
-            children: prayerToMaryPages,
-          ),
-        ));
+            onTap: () {
+              if (prayerToMaryCtrl.page != (prayerToMaryPages.length - 1)) {
+                prayerToMaryCtrl.nextPage(
+                    duration: Duration(milliseconds: 1), curve: Curves.linear);
+              } else {
+                pageCtrl.nextPage(
+                    duration: Duration(milliseconds: 1), curve: Curves.linear);
+              }
+            },
+            child: Stack(children: [
+              PageView(
+                controller: prayerToMaryCtrl,
+                children: prayerToMaryPages,
+              ),
+              Positioned(
+                  bottom: 10,
+                  left: 10,
+                  child: PrevButton(
+                    onPressed: () {
+                      if (prayerToMaryCtrl.page != 0) {
+                        prayerToMaryCtrl.previousPage(
+                            duration: Duration(milliseconds: 1),
+                            curve: Curves.linear);
+                      } else {
+                        pageCtrl
+                            .previousPage(
+                                duration: Duration(milliseconds: 1),
+                                curve: Curves.linear)
+                            .then((value) => litanyCtrl.jumpToPage(10));
+                      }
+                    },
+                  ))
+            ])));
   }
 }
 

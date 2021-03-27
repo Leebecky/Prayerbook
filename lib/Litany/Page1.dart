@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prayerbook/CustomWidget/customText.dart';
+import 'package:prayerbook/CustomWidget/prevBtn.dart';
 import 'package:prayerbook/Litany/Page10.dart';
 import 'package:prayerbook/Litany/Page11.dart';
 import 'package:prayerbook/Litany/Page4.dart';
@@ -8,14 +9,16 @@ import 'package:prayerbook/Litany/Page6.dart';
 import 'package:prayerbook/Litany/Page7.dart';
 import 'package:prayerbook/Litany/Page8.dart';
 import 'package:prayerbook/Litany/Page9.dart';
+import 'package:prayerbook/drawer.dart';
 import 'Page2.dart';
 import 'Page3.dart';
 
 class Litany extends StatelessWidget {
-  final PageController litanyCtrl = PageController();
+  final PageController litanyCtrl;
   final PageController pageCtrl;
+  final PageController chapletCtrl;
 
-  Litany(this.pageCtrl);
+  Litany(this.pageCtrl, this.litanyCtrl, this.chapletCtrl);
 
   @override
   Widget build(BuildContext context) {
@@ -35,24 +38,44 @@ class Litany extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.purple[900],
           title: Text("Litany of the Saints"),
         ),
+        drawer: SideDrawer(pageCtrl),
         body: GestureDetector(
           onTap: () {
-            //^  If we are still on the first page:
             if (litanyCtrl.page != (litanyPages.length - 1)) {
               litanyCtrl.nextPage(
                   duration: Duration(milliseconds: 1), curve: Curves.linear);
             } else {
-              //^  Once done with the Litany, move on to the next page (Litany)
               pageCtrl.nextPage(
                   duration: Duration(milliseconds: 1), curve: Curves.linear);
             }
           },
-          child: PageView(
-            controller: litanyCtrl,
-            children: litanyPages,
-          ),
+          child: Stack(children: [
+            PageView(
+              controller: litanyCtrl,
+              children: litanyPages,
+            ),
+            Positioned(
+                bottom: 10,
+                left: 10,
+                child: PrevButton(
+                  onPressed: () {
+                    if (litanyCtrl.page != 0) {
+                      litanyCtrl.previousPage(
+                          duration: Duration(milliseconds: 1),
+                          curve: Curves.linear);
+                    } else {
+                      pageCtrl
+                          .previousPage(
+                              duration: Duration(milliseconds: 1),
+                              curve: Curves.linear)
+                          .then((value) => chapletCtrl.jumpToPage(2));
+                    }
+                  },
+                ))
+          ]),
         ));
   }
 }
