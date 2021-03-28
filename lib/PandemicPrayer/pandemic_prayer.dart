@@ -33,6 +33,7 @@ class PandemicPrayer extends StatelessWidget {
             },
             child: Stack(children: [
               PageView(
+                physics: NeverScrollableScrollPhysics(),
                 controller: pandemicPrayerCtrl,
                 children: pandemicPrayerPages,
               ),
@@ -50,7 +51,7 @@ class PandemicPrayer extends StatelessWidget {
                           .previousPage(
                               duration: Duration(milliseconds: 10),
                               curve: Curves.linear)
-                          .then((value) => prayerToMaryCtrl.jumpToPage(1));
+                          .whenComplete(() => prayerToMaryCtrl.jumpToPage(1));
                     }
                   },
                 ),

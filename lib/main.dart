@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
             canvasColor: Colors.grey[850]),
         home: PageView(
           controller: pageCtrl,
+          physics: NeverScrollableScrollPhysics(),
           children: [
             Chaplet(pageCtrl, chapletCtrl),
             Litany(pageCtrl, litanyCtrl, chapletCtrl),

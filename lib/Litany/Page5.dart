@@ -21,6 +21,7 @@ class FifthPage extends StatelessWidget {
               customTextLitany("All you Holy Doctors"),
               customTextLitany("St. Anthony"),
               customTextLitany("St. Benedict"),
+              customTextLitany("St. Bernard"),
               customTextLitany("St. Dominic"),
               customTextLitany("St. Francis"),
               customTextLitany("All you Holy Priests and Levites"),
@@ -33,6 +34,8 @@ class FifthPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20),
+              customTextLitany("Pray for us"),
+              customTextLitany("Pray for us"),
               customTextLitany("Pray for us"),
               customTextLitany("Pray for us"),
               customTextLitany("Pray for us"),

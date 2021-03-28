@@ -43,7 +43,7 @@ class Closing extends StatelessWidget {
                     .previousPage(
                         duration: Duration(milliseconds: 1),
                         curve: Curves.linear)
-                    .then((value) => pandemicCtrl.jumpToPage(1)),
+                    .whenComplete(() => pandemicCtrl.jumpToPage(1)),
               ))
         ]));
   }

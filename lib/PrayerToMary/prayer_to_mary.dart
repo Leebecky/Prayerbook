@@ -33,6 +33,7 @@ class PrayerToMary extends StatelessWidget {
             },
             child: Stack(children: [
               PageView(
+                physics: NeverScrollableScrollPhysics(),
                 controller: prayerToMaryCtrl,
                 children: prayerToMaryPages,
               ),
@@ -50,7 +51,7 @@ class PrayerToMary extends StatelessWidget {
                             .previousPage(
                                 duration: Duration(milliseconds: 1),
                                 curve: Curves.linear)
-                            .then((value) => litanyCtrl.jumpToPage(10));
+                            .whenComplete(() => litanyCtrl.jumpToPage(10));
                       }
                     },
                   ))

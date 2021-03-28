@@ -54,6 +54,7 @@ class Litany extends StatelessWidget {
           },
           child: Stack(children: [
             PageView(
+              physics: NeverScrollableScrollPhysics(),
               controller: litanyCtrl,
               children: litanyPages,
             ),
@@ -71,7 +72,7 @@ class Litany extends StatelessWidget {
                           .previousPage(
                               duration: Duration(milliseconds: 1),
                               curve: Curves.linear)
-                          .then((value) => chapletCtrl.jumpToPage(2));
+                          .whenComplete(() => chapletCtrl.jumpToPage(2));
                     }
                   },
                 ))
@@ -97,7 +98,7 @@ class FirstPage extends StatelessWidget {
               customTextLitany("Lord, have mercy on us"),
               customTextLitany("Christ, have mercy on us"),
               customTextLitany("Lord, have mercy on us"),
-              customTextLitany("Christ, hear us"),
+              customTextLitany("Christ, graciously hear us"),
               SizedBox(height: 20),
               customTextLitany("God, the Father of heaven"),
               customTextLitany("God the Son, redeemer of the world"),

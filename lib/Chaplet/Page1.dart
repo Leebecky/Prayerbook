@@ -49,6 +49,7 @@ class Chaplet extends StatelessWidget {
           },
           child: Stack(children: [
             PageView(
+              physics: NeverScrollableScrollPhysics(),
               controller: chapletCtrl,
               children: chapletPages,
             ),
@@ -61,6 +62,13 @@ class Chaplet extends StatelessWidget {
                     //^ Go to next intercession if its not completed, else go to the next page
                     if (intercessionIndex.value > 0) {
                       intercessionCtrl.jumpToIndex(intercessionIndex.value - 2);
+                    }
+                    if (intercessionIndex.value == 1) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("This is the first page!"),
+                        padding: EdgeInsets.only(left: 100),
+                        duration: Duration(seconds: 1),
+                      ));
                     }
                   } else if (chapletCtrl.page != 0) {
                     chapletCtrl.previousPage(
@@ -104,7 +112,7 @@ class FirstPage extends StatelessWidget {
             child: IndexedListView.builder(
                 minItemCount: 0,
                 maxItemCount: 9,
-                physics: ClampingScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
                 controller: intercessionCtrl,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, int i) {
