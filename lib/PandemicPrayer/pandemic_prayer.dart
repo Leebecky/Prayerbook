@@ -51,7 +51,9 @@ class PandemicPrayer extends StatelessWidget {
                           .previousPage(
                               duration: Duration(milliseconds: 10),
                               curve: Curves.linear)
-                          .whenComplete(() => prayerToMaryCtrl.jumpToPage(1));
+                          .then((v) async => await Future.delayed(
+                              Duration(milliseconds: 1),
+                              () => prayerToMaryCtrl.jumpToPage(1)));
                     }
                   },
                 ),

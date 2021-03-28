@@ -36,15 +36,18 @@ class Closing extends StatelessWidget {
             ),
           ),
           Positioned(
-              bottom: 10,
-              left: 10,
-              child: PrevButton(
-                onPressed: () => pageCtrl
-                    .previousPage(
-                        duration: Duration(milliseconds: 1),
-                        curve: Curves.linear)
-                    .whenComplete(() => pandemicCtrl.jumpToPage(1)),
-              ))
+            bottom: 10,
+            left: 10,
+            child: PrevButton(
+              onPressed: () => pageCtrl
+                  .previousPage(
+                      duration: Duration(milliseconds: 1), curve: Curves.linear)
+                  .then(
+                    (v) async => await Future.delayed(Duration(milliseconds: 1),
+                        () => pandemicCtrl.jumpToPage(1)),
+                  ),
+            ),
+          )
         ]));
   }
 }

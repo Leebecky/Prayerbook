@@ -14,7 +14,6 @@ class Chaplet extends StatelessWidget {
   final ValueNotifier<int> intercessionIndex = ValueNotifier<int>(0);
 
   Chaplet(this.pageCtrl, this.chapletCtrl);
-
   @override
   Widget build(BuildContext context) {
     List<Widget> chapletPages = [

@@ -51,7 +51,9 @@ class PrayerToMary extends StatelessWidget {
                             .previousPage(
                                 duration: Duration(milliseconds: 1),
                                 curve: Curves.linear)
-                            .whenComplete(() => litanyCtrl.jumpToPage(10));
+                            .then((v) async => await Future.delayed(
+                                Duration(milliseconds: 1),
+                                () => litanyCtrl.jumpToPage(10)));
                       }
                     },
                   ))

@@ -62,17 +62,19 @@ class Litany extends StatelessWidget {
                 bottom: 10,
                 left: 10,
                 child: PrevButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (litanyCtrl.page != 0) {
                       litanyCtrl.previousPage(
                           duration: Duration(milliseconds: 1),
                           curve: Curves.linear);
                     } else {
-                      pageCtrl
+                      await pageCtrl
                           .previousPage(
                               duration: Duration(milliseconds: 1),
                               curve: Curves.linear)
-                          .whenComplete(() => chapletCtrl.jumpToPage(2));
+                          .then((v) async => await Future.delayed(
+                              Duration(milliseconds: 1),
+                              () => chapletCtrl.jumpToPage(2)));
                     }
                   },
                 ))
